@@ -1,7 +1,9 @@
+
+import MyForm from "@/components/myforms/myForm";
 export default function Home() {
   return (
-    <div>
-      <h1>Recipe</h1>
+    <div className="">
+     <MyForm/>
     </div>
   );
 }
