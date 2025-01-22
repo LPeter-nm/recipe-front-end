@@ -1,4 +1,4 @@
-import NextAuth from "next-auth/next"
+import NextAuth from "next-auth"
 import CredentialsProvider from "next-auth/providers/credentials"
 import { cookies } from "next/headers";
 
@@ -10,19 +10,20 @@ const handler = NextAuth({
     CredentialsProvider({
       name: "Credentials",
       credentials: {
-        email: {label:"email", type:"email"},
+        email: {label:"email", type:"email", placeholder: "jsmith"},
         password: {label:"password", type:"password"},
         },
         async authorize(credentials) {
-          const res = await fetch("http://10.24.8.167:3333/login",{
+          const res = await fetch("http://localhost:3000/login",{
             method: "POST",
             body: JSON.stringify(credentials),
             headers: { "Content-type":"application/json" },
           })
-          const {user, token} = await res.json();
-          if (res.ok && user) {
+          const {token} = await res.json();
+          if (res.ok) {
             (await cookies()).set("JWT", token.token);
-            return user;
+            console.log(token.token)
+            return token;
           }
           return null;
       },
