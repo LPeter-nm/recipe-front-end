@@ -15,10 +15,11 @@ const Form= ()=>{
 };
 
 
+
 return(
- <div className="min-h-[860px] flex justify-center items-center bg-amber-100 ">
+ <div className="min-h-[605px] flex justify-center items-center bg-amber-100 ">
  <form
- className=" flex p-10 h-[400px] w-[350px] rounded-xl justify-center items-center  bg-amber-200  flex-col gap-3 border-black border-2 mb-40">
+ className=" flex p-10 h-[400px] w-[350px] rounded-xl justify-center items-center  bg-amber-200  flex-col gap-3 border-black border-2">
    <input
    name="Name"
    type="string"
