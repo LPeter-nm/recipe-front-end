@@ -8,7 +8,7 @@ const Form= ()=>{
  const email= formdata.get("email")
  const password= formdata.get("password")
  const name = formdata.get("Name")
- await axios.post("http://localhost:3000/register",{
+ await axios.post("http://localhost:4000/register",{
    email,password,name
  })
  return redirect ('/')

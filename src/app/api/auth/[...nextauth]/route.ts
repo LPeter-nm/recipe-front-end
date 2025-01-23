@@ -3,9 +3,9 @@ import CredentialsProvider from "next-auth/providers/credentials"
 import { cookies } from "next/headers";
 
 const handler = NextAuth({
-  pages :{
-    signIn: '/',
-  },
+  // pages :{
+  //   signIn: '/',
+  // },
   providers:[
     CredentialsProvider({
       name: "Credentials",
@@ -14,16 +14,15 @@ const handler = NextAuth({
         password: {label:"password", type:"password"},
         },
         async authorize(credentials) {
-          const res = await fetch("http://localhost:3000/login",{
+          const res = await fetch("http://localhost:4000/login",{
             method: "POST",
             body: JSON.stringify(credentials),
             headers: { "Content-type":"application/json" },
           })
-          const {token} = await res.json();
+          const responseJson = await res.json();
           if (res.ok) {
-            (await cookies()).set("JWT", token.token);
-            console.log(token.token)
-            return token;
+            (await cookies()).set("JWT", responseJson.token);
+            return responseJson.token;
           }
           return null;
       },
