@@ -8,7 +8,7 @@ const Form= ()=>{
  const email= formdata.get("email")
  const password= formdata.get("password")
  const name = formdata.get("Name")
- await axios.post("http://10.24.9.76:4000/register",{
+ await axios.post("http://localhost:4000/register",{
    email,password,name
  })
  return redirect ('/')
@@ -51,11 +51,6 @@ return(
 <div className="flex gap-1">
      <p>já tem uma conta entre</p>
    </div>
-
-
-
-
-  
  </form>
  </div>
 )
