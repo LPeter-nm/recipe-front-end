@@ -1,13 +1,11 @@
 import { CgAdd } from "react-icons/cg";
-// import { CgArrowLeftO } from "react-icons/cg";
-// import { redirect } from "next/navigation";
+import { CgArrowLeftO } from "react-icons/cg";
 import axios from "axios";
-// import { getSession } from "next-auth/react";
 import { cookies } from "next/headers";
+
 
 const Criar = async () => {
     const jwt = (await cookies()).get("JWT");
-    // const session = await getSession();
 
     async function handleSubmit(formdata:FormData) {
         "use server"
@@ -18,22 +16,31 @@ const Criar = async () => {
         const category = formdata.get("categoria")
         const preparation_time = formdata.get("tempoPreparo")
         const difficulty =formdata.get("dificuldade")
-        const response = await axios.post("http://10.24.9.6:4000/recipes",{
-                title,
-                description,
-                ingredients,
-                preparation_time,
-                category,
-                imagem_url,
-                difficulty,
+        console.log(
+            title,
+            description,
+            ingredients,
+            preparation_time,
+            difficulty,
+            category,
+            imagem_url
+        )
+        const response = await axios.post("http://10.24.9.6:4000/recipe",{
+            title: title,
+            description: description,
+            ingredients: ingredients,
+            preparation_time: preparation_time,
+            difficulty: difficulty,
+            category: category,
+            imagem_url: imagem_url,
             }, {
                 headers:{
-                    authorization:`${jwt.value}`,
+                    authorization:`Bearer ${jwt!.value}`,
                 },
             });
-            console.log(response.data)
-        return (response.data);
-       };
+            return response.data.response
+        }
+
     return ( 
         <div className="min-h-[774px] flex justify-center items-center bg-amber-100 ">
             <form className=" flex p-5 w-full max-w-lg rounded-xl  flex-col gap-4 bg-amber-200  border-black border-2"  >
@@ -80,7 +87,13 @@ const Criar = async () => {
                     placeholder="Dificuldade"
                 />
                 <div className="flex justify-around mt-4">
-                    
+                <button
+                        type="button"
+                        className="bg-red-500 w-1/3 rounded-xl text-white p-2 flex items-center justify-center gap-2"
+                    >
+                        <CgArrowLeftO /> CANCELAR
+                    </button>
+
                     <button
                         formAction={handleSubmit}
                         type="submit"
