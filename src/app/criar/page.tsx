@@ -18,20 +18,20 @@ const Criar = async () => {
     
     async function handleSubmit(formdata:FormData) {
         "use server"
-        const titulo = formdata.get("titulo")
-        const descricao = formdata.get("descricao")
-        const ingredientes = formdata.get("ingredientes")
-        const linkfoto = formdata.get("linkFoto")
-        const categoria = formdata.get("categoria")
-        const tempoPreparo = formdata.get("tempoPreparo")
+        const title = formdata.get("titulo")
+        const description = formdata.get("descricao")
+        const ingredients = formdata.get("ingredientes")
+        const image_url = formdata.get("linkFoto")
+        const category = formdata.get("categoria")
+        const preparation_time = formdata.get("tempoPreparo")
         if (jwt) {
             await axios.post(`http://localhost:4000/recipe`, {
-                titulo,
-                descricao,
-                ingredientes,
-                linkfoto,
-                categoria,
-                tempoPreparo,
+                title,
+                description,
+                ingredients,
+                preparation_time,
+                category,
+                image_url,
             }, {
                 headers: {
                     authorization: jwt.value,
