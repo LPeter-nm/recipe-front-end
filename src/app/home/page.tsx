@@ -5,27 +5,17 @@ import { redirect } from "next/navigation";
 
 const Home = async () => {
   "use server"
-  
-  const jwt = (await cookies()).get("JWT");
-  const session = await getSession();
-  
-  if (!session) {
-    redirect("/");
-    return null;
-  }
-
-  if (!jwt) {
-    console.error("JWT não encontrado.");
-    return (
-      redirect("/error")
-    );
-  }
-
-  const receitas = await axios.get(`http://localhost:4000/recipes/${jwt.value}`, {
-    headers: {
-      authorization: jwt.value,
-    },
+  const jwt = (await cookies()).get("JWT")
+  const receitas = await axios.get(`http://10.24.9.6:4000/recipes/${jwt?.value}`,{
+    headers:{
+      authorization:`${jwt.value}`,
+    }
   });
+  console.log(receitas)
+  const session = getSession();
+  if(!session) {
+    redirect("/")
+  }
 
   console.log(receitas);
 
