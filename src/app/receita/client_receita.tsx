@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { handleRecipeView } from "./server";
 import { FaHeart, FaListAlt } from "react-icons/fa"; 
 
 type Recipe = {
@@ -20,7 +19,7 @@ const CardRecipe = () => {
 
   useEffect(() => {
     const getRecipes = async () => {
-      const data = await fetchRecipes();
+      const data = await fetchRecipe();
       setRecipes(data);
     };
     getRecipes();
@@ -40,7 +39,6 @@ const CardRecipe = () => {
       <div className="flex flex-wrap gap-9 justify-center mb-10">
         {recipes.map((recipe) => (
           <div key={recipe.id} className="bg-amber-500 w-72 rounded-xl">
-            <button onClick={() => handleRecipeView(recipe.id)}>
             <div className="relative">
               <img className="w-72 h-40 rounded" src={recipe.imagem_url} alt={recipe.title} />
             </div>
@@ -48,7 +46,6 @@ const CardRecipe = () => {
               <h1 className="mb-2 text-lg">{recipe.title}</h1>
               <p className="text-xs">{recipe.description}</p>
             </div>
-            </button>
           </div>
         ))}
       </div>
