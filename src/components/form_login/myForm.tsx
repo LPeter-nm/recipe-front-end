@@ -26,9 +26,9 @@ const MyForm = () => {
         <form action={handleSubmit} 
         className="flex-col flex justify-center items-center gap-3">
 
-          <input name="email" type="email" className="bg-amber-100 rounded-xl" placeholder="Email" />
-          <input name="password" type="password" className="bg-amber-100 rounded-xl" placeholder="Senha" />
-          <button type="submit" className="bg-amber-500 w-40 rounded-xl text-white">ENTRAR</button>
+          <input name="email" type="email" className="bg-amber-100 rounded-lg p-2" placeholder="Email" />
+          <input name="password" type="password" className="bg-amber-100 rounded-lg p-2" placeholder="Senha" />
+          <button type="submit" className="bg-amber-500 w-52 rounded-xl p-2 text-white">ENTRAR</button>
         </form>
       </div>
     </div>

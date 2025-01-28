@@ -2,8 +2,7 @@ import NextAuth from "next-auth"
 import CredentialsProvider from "next-auth/providers/credentials"
 import { cookies } from "next/headers";
 
-
-const handler = NextAuth({
+export const handlerAuth = NextAuth({
   pages :{
     signIn: '/',
   },
@@ -15,7 +14,7 @@ const handler = NextAuth({
         password: {label:"password", type:"password"},
         },
         async authorize(credentials) {
-          const res = await fetch(`http://localhost:4000/login`,{
+          const res = await fetch(`http://10.24.9.170:4000/login`,{
             method: "POST",
             body: JSON.stringify(credentials),
             headers: { "Content-type":"application/json" },
@@ -31,4 +30,4 @@ const handler = NextAuth({
   ],
 });
 
-export {handler as GET, handler as POST}
+export {handlerAuth as GET, handlerAuth as POST}

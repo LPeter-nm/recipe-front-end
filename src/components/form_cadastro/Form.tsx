@@ -23,14 +23,14 @@ return(
    <input
    name="Name"
    type="string"
-   className="bg-amber-100 rounded-xl "
+   className="bg-amber-100 rounded-lg p-2 "
    placeholder="Name"
    />
   
    <input
    name="email"
    type="email"
-   className="bg-amber-100 rounded-xl "
+   className="bg-amber-100 rounded-lg p-2 "
    placeholder=" Email"
    />
 
@@ -38,12 +38,13 @@ return(
 <input
    name="password"
    type="password"
-   className="bg-amber-100 rounded-xl"
+   className="bg-amber-100 rounded-lg p-2"
    placeholder=" Senha"
    />
+
    <button
    type="submit"
-   className="bg-amber-500 w-40 rounded-xl text-white "
+   className="bg-amber-500 w-52 rounded-xl p-2 text-white "
    formAction={handleSubmit}
    >CRIAR</button>
 

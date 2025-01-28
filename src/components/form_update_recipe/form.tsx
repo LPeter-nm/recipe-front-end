@@ -3,10 +3,9 @@
 import { FormEvent } from "react";
 import { useRouter } from "next/navigation";
 import { CgAdd, CgArrowLeftO } from "react-icons/cg";
-import { handleSubmit } from "./server";
-import { LuCookingPot } from "react-icons/lu";
+import { handleSubmit } from './server';
 
-const CriarForm = () => {
+const UpdateForm = () => {
   const router = useRouter();
 
   const handleFormSubmit = async (e: FormEvent<HTMLFormElement>) => {
@@ -19,27 +18,14 @@ const CriarForm = () => {
   const handleCancel = () => {
     router.push("/home");
   };
-  const handlefacil = () => {
-    const dificuldade = "FACIL"
-  } 
 
-  const handlemedio = () => {
-    const dificuldade = "MEDIO"
-  } 
-
-  const handledificil= () => {
-    const dificuldade = "DIFICIL"
-  } 
-  
-
-    
   return (
     <div className="min-h-[774px] flex justify-center items-center bg-amber-100">
       <form
         className="flex p-5 w-full max-w-lg rounded-xl flex-col gap-4 bg-amber-200 border-black border-2"
         onSubmit={handleFormSubmit}
       >
-        <h1 className="text-2xl justify-center flex">Adicione uma nova receita!</h1>
+        <h1 className="text-2xl justify-center flex">Atualize sua receita!</h1>
         <input
           name="titulo"
           type="text"
@@ -79,14 +65,12 @@ const CriarForm = () => {
           className="bg-gray-100 rounded-lg p-2 border border-gray-300"
           placeholder="Tempo de Preparação em minutos"
         />
-        <h1>Dificuldade: </h1>
-        <div className="flex gap-4">
-        <button onClick={handlefacil}><LuCookingPot size={25} className="hover:text-orange-600"/></button>
-
-        <button onClick={handlemedio}><LuCookingPot size={25} className="hover:text-orange-600"/></button>
-
-        <button name="dificuldade" onClick={handledificil}><LuCookingPot size={25} className="hover:text-orange-600"/></button>
-        </div>
+        <input
+          name="dificuldade"
+          type="text"
+          className="bg-gray-100 rounded-lg p-2 border border-gray-300"
+          placeholder="Dificuldade"
+        />
         <div className="flex justify-around mt-4">
           <button
             onClick={handleCancel}
@@ -99,7 +83,7 @@ const CriarForm = () => {
             type="submit"
             className="bg-green-500 w-1/3 rounded-xl text-white p-2 flex items-center justify-center gap-2"
           >
-            <CgAdd /> ADICIONAR
+            <CgAdd /> ATUALIZAR
           </button>
         </div>
       </form>
@@ -107,4 +91,4 @@ const CriarForm = () => {
   );
 };
 
-export default CriarForm;
+export default UpdateForm;

@@ -6,7 +6,7 @@ const Button_home = () => {
   const router = useRouter();
 
   const handleCreate = () => {
-    router.push("/criar");
+    router.push("/criar_receita");
   };
 
   return ( 
