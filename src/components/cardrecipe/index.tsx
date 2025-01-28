@@ -1,7 +1,8 @@
-import axios from "axios";
-import { cookies } from "next/headers";
-import { MdFavoriteBorder } from "react-icons/md";
-import { redirect } from "next/navigation";
+"use client";
+
+import { useEffect, useState } from "react";
+import { fetchRecipes } from "./server";
+import { FaHeart, FaListAlt } from "react-icons/fa"; 
 
 type Recipe = {
   id: string;
@@ -12,37 +13,45 @@ type Recipe = {
   difficulty: string;
   category: string;
   imagem_url: string;
-}
-const CardRecipe = async () => {
-  "use server"
-  const jwt = (await cookies()).get("JWT")
-  const response = await axios.get(`http://10.24.9.6:4000/recipes`,{
-    headers:{
-      authorization:`Bearer ${jwt!.value}`,
-    }
-  });
-  console.log(response.data)
+};
+
+const CardRecipe = () => {
+  const [recipes, setRecipes] = useState<Recipe[]>([]);
+
+  useEffect(() => {
+    const getRecipes = async () => {
+      const data = await fetchRecipes();
+      setRecipes(data);
+    };
+    getRecipes();
+  }, []);
 
   return (
-    <div className="">
-      {
-        response.data.map((recipe: Recipe) => (
-          <div key={recipe.id} className="bg-amber-500 w-96 rounded-xl">
-              <div className="relative">
-                <img className="w-96 h-60 rounded" src={recipe.imagem_url} alt="" />
-                <button>
-                  <MdFavoriteBorder className="absolute right-4 size-9 "/>
-                </button>
-              </div>
-              <div className="p-3">
-                <h1 className=" mb-2 text-2xl">{recipe.title}</h1>
-                <p>{recipe.description}</p>
-              </div>
+    <div>
+      <h1 className="mb-3 text-3xl">Receitas Cadastradas:</h1>
+      <div className="flex justify-normal gap-6 mb-8">
+        <button className="bg-amber-500 text-black rounded-lg p-2 flex items-center gap-2">
+          <FaHeart /> Filtrar por Favoritas
+        </button>
+        <button className="bg-amber-500 text-black rounded-lg p-2 flex items-center gap-2">
+          <FaListAlt /> Filtrar por Categoria
+        </button>
+      </div>
+      <div className="flex flex-wrap gap-9 justify-center mb-10">
+        {recipes.map((recipe) => (
+          <div key={recipe.id} className="bg-amber-500 w-72 rounded-xl">
+            <div className="relative">
+              <img className="w-72 h-40 rounded" src={recipe.imagem_url} alt={recipe.title} />
             </div>
-        ))
-      }
+            <div className="p-3">
+              <h1 className="mb-2 text-lg">{recipe.title}</h1>
+              <p className="text-xs">{recipe.description}</p>
+            </div>
+          </div>
+        ))}
+      </div>
     </div>
-   );
-}
- 
+  );
+};
+
 export default CardRecipe;

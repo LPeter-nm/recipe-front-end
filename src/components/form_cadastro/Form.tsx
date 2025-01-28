@@ -1,5 +1,5 @@
 import { redirect } from 'next/navigation'
-import axios from 'axios';
+import { api } from '@/service/server';
 
 
 const Form= ()=>{
@@ -8,7 +8,7 @@ const Form= ()=>{
  const email= formdata.get("email")
  const password= formdata.get("password")
  const name = formdata.get("Name")
- await axios.post("http://10.24.9.6:4000/register",{
+ await api.post(`register`,{
    email,password,name
  })
  return redirect ('/')
@@ -47,10 +47,6 @@ return(
    formAction={handleSubmit}
    >CRIAR</button>
 
-
-<div className="flex gap-1">
-     <p>já tem uma conta entre</p>
-   </div>
  </form>
  </div>
 )

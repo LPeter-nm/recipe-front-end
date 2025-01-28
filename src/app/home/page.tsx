@@ -1,23 +1,15 @@
-import CardRecipe from "@/components/cardrecipe";
-import axios from "axios";
-import { getSession } from "next-auth/react";
-import { cookies } from "next/headers";
-import { redirect } from "next/navigation";
+import ServerComponent from "./server_home";
+import ClientComponent from "./client_home";
+import Navbar_Home from "@/components/navbar_home";
 
 const Home = async () => {
-  "use server"
-  const session = getSession();
-  if(!session) {
-    redirect("/")
-  }
+  return (
 
-;
-
-  return ( 
-    <div className="min-h-[800px] flex justify-center items-center bg-amber-100">
-      <CardRecipe></CardRecipe>
-    </div>
+    <ServerComponent>
+      <Navbar_Home/>
+      <ClientComponent />
+    </ServerComponent>
   );
 }
- 
+
 export default Home;

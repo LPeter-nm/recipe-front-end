@@ -1,6 +1,4 @@
 "use client"
-
-import { redirect } from 'next/navigation'
 import { signIn } from "next-auth/react";
 
 const MyForm = () => {
@@ -19,9 +17,6 @@ const MyForm = () => {
       callbackUrl: "/home",
     });
   }
-  function handle_Cadastro(){
-    redirect('/cadastro')
-  }
 
   return (
     <div className="min-h-[774px] flex justify-center items-center bg-amber-100">
@@ -35,10 +30,6 @@ const MyForm = () => {
           <input name="password" type="password" className="bg-amber-100 rounded-xl" placeholder="Senha" />
           <button type="submit" className="bg-amber-500 w-40 rounded-xl text-white">ENTRAR</button>
         </form>
-        <div className="flex gap-1 justify-items translate-y-16">
-          <p>Não tem conta na AnyRecipe? Crie</p>
-          <button className="text-cyan-500 italic" onClick={handle_Cadastro}>aqui</button>
-        </div>
       </div>
     </div>
   );
