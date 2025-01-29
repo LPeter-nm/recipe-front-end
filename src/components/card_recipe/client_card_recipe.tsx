@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { fetchRecipes } from "./server";
+import { fetchRecipes } from "./server_card_recipe";
 import { FaHeart, FaListAlt } from "react-icons/fa"; 
 
 type Recipe = {

@@ -1,5 +1,5 @@
-import ServerComponent from "./server_home";
-import ClientComponent from "./client_home";
+import ServerComponent from "../../components/home/server_home";
+import ClientComponent from "../../components/home/client_home";
 import Navbar_Home from "@/components/navbar_home";
 
 const Home = async () => {

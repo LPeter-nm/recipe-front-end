@@ -1,62 +1,73 @@
-'use client';
-
-import { FormEvent, useState } from "react";
+"use client";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { CgAdd, CgArrowLeftO } from "react-icons/cg";
-import { handleSubmit } from "./server";
-import { LuCookingPot } from "react-icons/lu";
 
-const CriarForm = () => {
+type Recipe = {
+  id: string;
+  title: string;
+  description: string;
+  ingredients: string;
+  preparation_time: number;
+  difficulty: string;
+  category: string;
+  imagem_url: string;
+};
+
+const UpdateForm = ({ recipe }: { recipe: Recipe }) => {
+  const [formData, setFormData] = useState(recipe);
   const router = useRouter();
-  const [dificuldade, setDificuldade] = useState(0);
 
-  const handleFormSubmit = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const formdata = new FormData(e.currentTarget);
-    formdata.set("dificuldade", ['FACIL', 'MEDIO', 'DIFICIL'][dificuldade - 1] || "");
-    await handleSubmit(formdata);
-    router.push("/home");
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
   };
 
-  const handleCancel = () => {
-    router.push("/home");
-  };
-
-  const handleDificuldade = (nivel: number) => {
-    setDificuldade(nivel);
+  const handleCancel = (recipe_id : string) => {
+    router.push(`/receita/${recipe_id}`);
   };
 
   return (
     <div className="min-h-[774px] flex justify-center items-center bg-amber-100">
       <form
         className="flex p-5 w-full max-w-lg rounded-xl flex-col gap-4 bg-amber-200 border-black border-2"
-        onSubmit={handleFormSubmit}
       >
-        <h1 className="text-2xl justify-center flex">Adicione uma nova receita!</h1>
+        <h1 className="text-2xl justify-center flex">Atualize sua receita!</h1>
         <input
-          name="titulo"
+          name="title"
           type="text"
           className="bg-gray-100 rounded-lg p-2 border border-gray-300"
           placeholder="Título"
+          value={formData.title}
+          onChange={handleInputChange}
         />
         <input
-          name="descricao"
+          name="description"
           className="bg-gray-100 rounded-lg p-2 border border-gray-300"
-          placeholder="descrição"
+          placeholder="Descrição"
+          value={formData.description}
+          onChange={handleInputChange}
         />
         <input
-          name="ingredientes"
+          name="ingredients"
           className="bg-gray-100 rounded-lg p-2 border border-gray-300"
           placeholder="Ingredientes"
+          value={formData.ingredients}
+          onChange={handleInputChange}
         />
         <input
-          name="linkFoto"
+          name="imagem_url"
           type="text"
           className="bg-gray-100 rounded-lg p-2 border border-gray-300"
           placeholder="Link da Foto"
+          value={formData.imagem_url}
+          onChange={handleInputChange}
         />
         <select
-          name="categoria"
+          name="category"
           className="bg-gray-100 rounded-lg p-2 border border-gray-300"
         >
           <option value="">Selecione uma Categoria</option>
@@ -67,38 +78,16 @@ const CriarForm = () => {
           <option value="Bebida">Bebida</option>
         </select>
         <input
-          name="tempoPreparo"
+          name="preparation_time"
           type="number"
           className="bg-gray-100 rounded-lg p-2 border border-gray-300"
           placeholder="Tempo de Preparação em minutos"
+          value={formData.preparation_time}
+          onChange={handleInputChange}
         />
-        <h1 className="flex justify-center text-lg">Dificuldade</h1>
-        <div className="flex justify-center gap-4">
-          <button
-            type="button"
-            onClick={() => handleDificuldade(1)}
-            className={dificuldade >= 1 ? "text-orange-600" : ""}
-          >
-            <LuCookingPot size={25} />
-          </button>
-          <button
-            type="button"
-            onClick={() => handleDificuldade(2)}
-            className={dificuldade >= 2 ? "text-orange-600" : ""}
-          >
-            <LuCookingPot size={25} />
-          </button>
-          <button
-            type="button"
-            onClick={() => handleDificuldade(3)}
-            className={dificuldade >= 3 ? "text-orange-600" : ""}
-          >
-            <LuCookingPot size={25} />
-          </button>
-        </div>
         <div className="flex justify-around mt-4">
           <button
-            onClick={handleCancel}
+            onClick={() => handleCancel(recipe.id)}
             type="button"
             className="bg-red-500 w-1/3 rounded-xl text-white p-2 flex items-center justify-center gap-2"
           >
@@ -108,7 +97,7 @@ const CriarForm = () => {
             type="submit"
             className="bg-green-500 w-1/3 rounded-xl text-white p-2 flex items-center justify-center gap-2"
           >
-            <CgAdd /> ADICIONAR
+            <CgAdd /> ATUALIZAR
           </button>
         </div>
       </form>
@@ -116,4 +105,4 @@ const CriarForm = () => {
   );
 };
 
-export default CriarForm;
+export default UpdateForm;
