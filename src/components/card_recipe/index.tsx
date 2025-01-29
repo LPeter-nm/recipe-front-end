@@ -1,7 +1,8 @@
-"use client";
+'use client';
 
 import { useEffect, useState } from "react";
-import { handleRecipeView } from "./server";
+import { useRouter } from "next/navigation";
+import { fetchRecipes } from "./server";
 import { FaHeart, FaListAlt } from "react-icons/fa"; 
 
 type Recipe = {
@@ -16,6 +17,7 @@ type Recipe = {
 };
 
 const CardRecipe = () => {
+  const router = useRouter();
   const [recipes, setRecipes] = useState<Recipe[]>([]);
 
   useEffect(() => {
@@ -25,6 +27,10 @@ const CardRecipe = () => {
     };
     getRecipes();
   }, []);
+
+  const handleRecipeView = (id: string) => {
+    router.push(`/receita/${id}`);
+  };
 
   return (
     <div>
@@ -41,13 +47,13 @@ const CardRecipe = () => {
         {recipes.map((recipe) => (
           <div key={recipe.id} className="bg-amber-500 w-72 rounded-xl">
             <button onClick={() => handleRecipeView(recipe.id)}>
-            <div className="relative">
-              <img className="w-72 h-40 rounded" src={recipe.imagem_url} alt={recipe.title} />
-            </div>
-            <div className="p-3">
-              <h1 className="mb-2 text-lg">{recipe.title}</h1>
-              <p className="text-xs">{recipe.description}</p>
-            </div>
+              <div className="relative">
+                <img className="w-72 h-40 rounded" src={recipe.imagem_url} alt={recipe.title} />
+              </div>
+              <div className="p-3">
+                <h1 className="mb-2 text-lg">{recipe.title}</h1>
+                <p className="text-xs">{recipe.description}</p>
+              </div>
             </button>
           </div>
         ))}

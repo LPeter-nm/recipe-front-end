@@ -1,6 +1,6 @@
-"use client";
+'use client';
 
-import { FormEvent } from "react";
+import { FormEvent, useState } from "react";
 import { useRouter } from "next/navigation";
 import { CgAdd, CgArrowLeftO } from "react-icons/cg";
 import { handleSubmit } from "./server";
@@ -8,10 +8,12 @@ import { LuCookingPot } from "react-icons/lu";
 
 const CriarForm = () => {
   const router = useRouter();
+  const [dificuldade, setDificuldade] = useState(0);
 
   const handleFormSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formdata = new FormData(e.currentTarget);
+    formdata.set("dificuldade", ['FACIL', 'MEDIO', 'DIFICIL'][dificuldade - 1] || "");
     await handleSubmit(formdata);
     router.push("/home");
   };
@@ -19,20 +21,11 @@ const CriarForm = () => {
   const handleCancel = () => {
     router.push("/home");
   };
-  const handlefacil = () => {
-    const dificuldade = "FACIL"
-  } 
 
-  const handlemedio = () => {
-    const dificuldade = "MEDIO"
-  } 
+  const handleDificuldade = (nivel: number) => {
+    setDificuldade(nivel);
+  };
 
-  const handledificil= () => {
-    const dificuldade = "DIFICIL"
-  } 
-  
-
-    
   return (
     <div className="min-h-[774px] flex justify-center items-center bg-amber-100">
       <form
@@ -79,13 +72,29 @@ const CriarForm = () => {
           className="bg-gray-100 rounded-lg p-2 border border-gray-300"
           placeholder="Tempo de Preparação em minutos"
         />
-        <h1>Dificuldade: </h1>
-        <div className="flex gap-4">
-        <button onClick={handlefacil}><LuCookingPot size={25} className="hover:text-orange-600"/></button>
-
-        <button onClick={handlemedio}><LuCookingPot size={25} className="hover:text-orange-600"/></button>
-
-        <button name="dificuldade" onClick={handledificil}><LuCookingPot size={25} className="hover:text-orange-600"/></button>
+        <h1 className="flex justify-center text-lg">Dificuldade</h1>
+        <div className="flex justify-center gap-4">
+          <button
+            type="button"
+            onClick={() => handleDificuldade(1)}
+            className={dificuldade >= 1 ? "text-orange-600" : ""}
+          >
+            <LuCookingPot size={25} />
+          </button>
+          <button
+            type="button"
+            onClick={() => handleDificuldade(2)}
+            className={dificuldade >= 2 ? "text-orange-600" : ""}
+          >
+            <LuCookingPot size={25} />
+          </button>
+          <button
+            type="button"
+            onClick={() => handleDificuldade(3)}
+            className={dificuldade >= 3 ? "text-orange-600" : ""}
+          >
+            <LuCookingPot size={25} />
+          </button>
         </div>
         <div className="flex justify-around mt-4">
           <button

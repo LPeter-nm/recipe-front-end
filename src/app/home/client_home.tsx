@@ -1,7 +1,7 @@
 "use client";
 
 import Button_home from "../../components/button_home";
-import CardRecipe from "../../components/cardrecipe";
+import CardRecipe from "@/components/card_recipe";
 
 const ClientComponent = () => {
   return (
