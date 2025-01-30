@@ -1,13 +1,18 @@
-import Form from "@/components/form_cadastro/Form";
-import Navbar from "@/components/navbar";
 
-const Cadastro = () => {
-  return ( 
-    <div>
-      <Navbar/>
-      <Form/>
+import ClientForm from '@/components/form_cadastro/Form_cadastro_client';
+import { handleSubmit } from '@/components/form_cadastro/Form_cadastro_server';
+import Navbar from '@/components/navbar';
+
+
+const Form = () => {
+
+  return (
+    <div className='-mb-6'>
+      <Navbar />
+      <ClientForm handleSubmit={handleSubmit} />;
     </div>
-   );
-}
- 
-export default Cadastro;
+    
+  )
+};
+
+export default Form;

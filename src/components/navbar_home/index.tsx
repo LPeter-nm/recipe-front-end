@@ -1,13 +1,11 @@
 'use client';
-
-import { signOut } from 'next-auth/react';
 import cookie from 'js-cookie';
 import { redirect } from 'next/navigation';
 
 const Navbar_Home = () => {
   const handleSignOut = async () => {
     cookie.remove('JWT');
-    await signOut({ callbackUrl: '/' });
+    redirect("/")
   };
   const handleHome = () => {
     redirect("/home")
