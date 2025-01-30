@@ -42,7 +42,7 @@ const CriarForm = () => {
         <input
           name="descricao"
           className="bg-gray-100 rounded-lg p-2 border border-gray-300"
-          placeholder="descrição"
+          placeholder="Descrição"
         />
         <input
           name="ingredientes"
