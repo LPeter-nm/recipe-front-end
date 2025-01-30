@@ -8,12 +8,18 @@ import { LuCookingPot } from "react-icons/lu";
 
 const CriarForm = () => {
   const router = useRouter();
-  const [dificuldade, setDificuldade] = useState(0);
+  const [dificuldade, setDificuldade] = useState(1);
+  const [error, setError] = useState("");
 
   const handleFormSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formdata = new FormData(e.currentTarget);
-    formdata.set("dificuldade", ['FACIL', 'MEDIO', 'DIFICIL'][dificuldade - 1] || "");
+    formdata.set("dificuldade", ['FACIL', 'MEDIO', 'DIFICIL'][dificuldade - 1]);
+
+    if (!validateForm(formdata)) {
+      return;
+    }
+
     await handleSubmit(formdata);
     router.push("/home");
   };
@@ -26,6 +32,18 @@ const CriarForm = () => {
     setDificuldade(nivel);
   };
 
+  const validateForm = (formdata: FormData) => {
+    const requiredFields = ["titulo", "descricao", "ingredientes", "linkFoto", "categoria", "tempoPreparo"];
+    for (const field of requiredFields) {
+      if (!formdata.get(field)) {
+        setError("Por favor, preencha todos os campos.");
+        return false;
+      }
+    }
+    setError("");
+    return true;
+  };
+
   return (
     <div className="min-h-[774px] flex justify-center items-center bg-amber-100">
       <form
@@ -33,20 +51,21 @@ const CriarForm = () => {
         onSubmit={handleFormSubmit}
       >
         <h1 className="text-2xl justify-center flex">Adicione uma nova receita!</h1>
+        {error && <p className="text-red-600">{error}</p>}
         <input
           name="titulo"
           type="text"
           className="bg-gray-100 rounded-lg p-2 border border-gray-300"
           placeholder="Título"
         />
-        <input
+        <textarea
           name="descricao"
-          className="bg-gray-100 rounded-lg p-2 border border-gray-300"
+          className="bg-gray-100 rounded-lg p-2 border border-gray-300 h-24"
           placeholder="Descrição"
         />
-        <input
+        <textarea
           name="ingredientes"
-          className="bg-gray-100 rounded-lg p-2 border border-gray-300"
+          className="bg-gray-100 rounded-lg p-2 border border-gray-300 h-24"
           placeholder="Ingredientes"
         />
         <input
@@ -65,6 +84,9 @@ const CriarForm = () => {
           <option value="Prato Principal">Prato Principal</option>
           <option value="Sobremesa">Sobremesa</option>
           <option value="Bebida">Bebida</option>
+          <option value="Café da Manhã">Café da Manhã</option>
+          <option value="Lanche">Lanche</option>
+          <option value="Jantar">Jantar</option>
         </select>
         <input
           name="tempoPreparo"

@@ -14,7 +14,7 @@ type Recipe = {
   imagem_url: string;
 };
 
-const fetchRecipeById = async (id: string): Promise<Recipe | null> => {
+const fetchRecipeById_edit = async (id: string): Promise<Recipe | null> => {
   const jwt = (await cookies()).get("JWT");
   try {
     const response = await api.get(`/recipe/${id}`, {
@@ -27,8 +27,10 @@ const fetchRecipeById = async (id: string): Promise<Recipe | null> => {
   }
 };
 
-export default async function RecipeServer_edit({ id }: { id: string }) {
-  const recipe = await fetchRecipeById(id);
+async function RecipeServer_edit({ id }: { id: string }) {
+  const recipe = await fetchRecipeById_edit(id);
   if (!recipe) return notFound();
   return <UpdateForm recipe={recipe} />;
 }
+
+export default (RecipeServer_edit)

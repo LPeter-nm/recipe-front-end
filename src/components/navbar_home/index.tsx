@@ -1,6 +1,4 @@
 'use client';
-
-import { signOut } from 'next-auth/react';
 import cookie from 'js-cookie';
 import { redirect } from 'next/navigation';
 import { IoSearchOutline } from "react-icons/io5";
@@ -10,7 +8,7 @@ import logo from '../../assets/images/logo_any_recipe.png';
 const Navbar_Home = () => {
   const handleSignOut = async () => {
     cookie.remove('JWT');
-    await signOut({ callbackUrl: '/' });
+    redirect("/")
   };
   const handleHome = () => {
     redirect("/home")
