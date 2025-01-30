@@ -7,6 +7,8 @@ import { FaHeart, FaListAlt } from "react-icons/fa";
 import { MdFavoriteBorder } from "react-icons/md";
 import { MdFavorite } from "react-icons/md";
 import { fetchUpdateRecipe } from "./server_card_update_recipe";
+import { LuCookingPot } from "react-icons/lu";
+import classNames from 'classnames';
 
 type Recipe = {
   id: string;
@@ -18,6 +20,29 @@ type Recipe = {
   favorite: boolean;
   category: string;
   imagem_url: string;
+};
+
+const renderDifficultyIcons = (difficulty: string) => {
+  const icons = [];
+  let count = 0;
+
+  switch (difficulty) {
+    case "FACIL":
+      count = 1;
+      break;
+    case "MEDIO":
+      count = 2;
+      break;
+    case "DIFICIL":
+      count = 3;
+      break;
+    default:
+      count = 0;
+  }
+  for (let i = 0; i < count; i++) {
+    icons.push(<LuCookingPot key={i} className="text-black w-10 h-10" />);
+  }
+  return icons;
 };
 
 const CardRecipe = () => {
@@ -49,6 +74,8 @@ const CardRecipe = () => {
   const handleRecipeView = (id: string) => {
     router.push(`/receita/${id}`);
   };
+ 
+  const [hover, setHover] = useState(false);
 
   return (
     <div>
@@ -63,12 +90,21 @@ const CardRecipe = () => {
       </div>
       <div className="flex flex-wrap gap-9 justify-center mb-10">
         {filterRecipes.map((recipe) => (
-          <div key={recipe.id} className="bg-amber-500 w-[275px] h-[294px] rounded-xl">
-            <button onClick={() => handleRecipeView(recipe.id)}>
-              <div className="relative">
-                <img className="w-[275px] h-[183px] rounded-t-[12px]" src={recipe.imagem_url} alt={recipe.title} />
+          <div key={recipe.id} className="bg-amber-500 w-[275px] h-[294px] rounded-xl ">
+            <button onClick={() => handleRecipeView(recipe.id)} >
+              <div className="relative ">
+                <img className={classNames('w-[275px] h-[183px] rounded-t-[12px] hover:opacity-50' )} 
+                onMouseEnter={() => setHover(true)} 
+                onMouseLeave={() => setHover(false)} 
+                src={recipe.imagem_url} alt={recipe.title} />
+                <h1 
+        className={`flex justify-center -translate-y-24 font-bold text-red-500 transition-opacity duration-300 ${hover ? 'opacity-100' : 'opacity-0'}`}
+      >
+        {renderDifficultyIcons(recipe.difficulty)}
+      </h1>
               </div>
             </button>
+            
             <div>
               <div className="p-2">
                 <div className="flex justify-between">

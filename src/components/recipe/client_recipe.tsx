@@ -83,3 +83,4 @@ export default function RecipeClient({ recipe }: { recipe: Recipe }) {
     </div>
   );
 }
+
