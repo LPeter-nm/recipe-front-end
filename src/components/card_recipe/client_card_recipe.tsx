@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from "react";
+import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { fetchRecipes } from "./server_card_recipe";
 import { FaHeart, FaListAlt } from "react-icons/fa";
@@ -24,6 +24,8 @@ const CardRecipe = () => {
   const router = useRouter();
   const [recipes, setRecipes] = useState<Recipe[]>([]);
   const [favorite, setFavorite] = useState<Recipe["favorite"]>();
+  const [category,setCategory] = useState("");
+  const [showCategory,setshowCategory] = useState(false);
   const [showFavorites, setShowFavorites] = useState(false);
   
   useEffect(() => {
@@ -32,13 +34,22 @@ const CardRecipe = () => {
       setRecipes(data);
     };
     getRecipes();
-  }, [favorite]);
+  }, [favorite, category]);
 
 
-  const filterRecipes = showFavorites ? recipes.filter((recipe) => recipe.favorite) : recipes;
+  const recipesFilter = recipes.filter(recipe => {
+    const filterFavoriteRecipes = showFavorites ? recipe.favorite : true;
+    const filterCategoryRecipes = showCategory ? recipe.category === category : true;
+    return filterCategoryRecipes && filterFavoriteRecipes;
+  });
 
   const handleFilterFavorites = () => {
     setShowFavorites(!showFavorites);
+  };
+
+  const handleFilterCategory = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setCategory(event.target.value);
+    setshowCategory(event.target.value !== ""); 
   };
 
   const handleUpdateRecipe = async (id: string) => {
@@ -49,7 +60,6 @@ const CardRecipe = () => {
   const handleRecipeView = (id: string) => {
     router.push(`/receita/${id}`);
   };
-
   return (
     <div>
       <h1 className="mb-3 text-3xl">Receitas Cadastradas:</h1>
@@ -57,12 +67,20 @@ const CardRecipe = () => {
         <button onClick={ () => handleFilterFavorites()} className="bg-amber-500 border-2 border-black text-black rounded-lg p-2 flex items-center gap-2">
           <FaHeart /> Filtrar por Favoritas
         </button>
-        <button className="bg-amber-500  border-2 border-black text-black rounded-lg p-2 flex items-center gap-2">
-          <FaListAlt /> Filtrar por Categoria
-        </button>
+        <select onChange={(e) => handleFilterCategory(e)} className="bg-amber-500  border-2 border-black text-black rounded-lg p-2 flex items-center gap-2">
+        <option value="">Filtrar por Categoria</option>
+          <option value="Aperitivo">Aperitivo</option>
+          <option value="Entrada">Entrada</option>
+          <option value="Prato Principal">Prato Principal</option>
+          <option value="Sobremesa">Sobremesa</option>
+          <option value="Bebida">Bebida</option>
+          <option value="Café da Manhã">Café da Manhã</option>
+          <option value="Lanche">Lanche</option>
+          <option value="Jantar">Jantar</option>
+        </select>
       </div>
       <div className="flex flex-wrap gap-9 justify-center mb-10">
-        {filterRecipes.map((recipe) => (
+        {recipesFilter.map((recipe) => (
           <div key={recipe.id} className="bg-amber-500 w-[275px] h-[294px] rounded-xl">
             <button onClick={() => handleRecipeView(recipe.id)}>
               <div className="relative">
@@ -89,7 +107,7 @@ const CardRecipe = () => {
                 </div>
               </div>
               <button onClick={() => handleRecipeView(recipe.id)}>
-                <p className="text-xs text-left px-2">{recipe.description.length > 115 ? recipe.description.substring(0, 115) + "..." : recipe.description}</p>
+                <p className="text-xs text-left px-2">{recipe.description.length > 100 ? recipe.description.substring(0, 100) + "..." : recipe.description}</p>
               </button>
             </div>
           </div>

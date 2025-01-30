@@ -14,6 +14,7 @@ const Navbar_Home = () => {
     redirect("/home")
   }
 
+
   return (
     <div className="bg-amber-200 h-13 border-b-2 border-slate-900">
       <div className='flex content-center gap-60 justify-between'>
