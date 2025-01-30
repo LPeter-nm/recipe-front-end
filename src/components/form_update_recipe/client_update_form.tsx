@@ -2,6 +2,7 @@
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { CgAdd, CgArrowLeftO } from "react-icons/cg";
+import Update_Recipe from "./server_update";
 
 type Recipe = {
   id: string;
@@ -26,14 +27,25 @@ const UpdateForm = ({ recipe }: { recipe: Recipe }) => {
     });
   };
 
-  const handleCancel = (recipe_id : string) => {
+  const handleCancel = (recipe_id: string) => {
     router.push(`/receita/${recipe_id}`);
+  };
+
+  const handleUpdate = async () => {
+    const updatedRecipe = await Update_Recipe(recipe.id, formData);
+    if (updatedRecipe) {
+      router.push(`/receita/${recipe.id}`);
+    }
   };
 
   return (
     <div className="min-h-[774px] flex justify-center items-center bg-amber-100">
       <form
         className="flex p-5 w-full max-w-lg rounded-xl flex-col gap-4 bg-amber-200 border-black border-2"
+        onSubmit={(e) => {
+          e.preventDefault();
+          handleUpdate();
+        }}
       >
         <h1 className="text-2xl justify-center flex">Atualize sua receita!</h1>
         <input
@@ -69,6 +81,8 @@ const UpdateForm = ({ recipe }: { recipe: Recipe }) => {
         <select
           name="category"
           className="bg-gray-100 rounded-lg p-2 border border-gray-300"
+          value={formData.category}
+          onChange={handleInputChange}
         >
           <option value="">Selecione uma Categoria</option>
           <option value="Aperitivo">Aperitivo</option>

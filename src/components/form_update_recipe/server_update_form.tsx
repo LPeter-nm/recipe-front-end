@@ -27,8 +27,10 @@ const fetchRecipeById = async (id: string): Promise<Recipe | null> => {
   }
 };
 
-export default async function RecipeServer_edit({ id }: { id: string }) {
+async function RecipeServer_edit({ id }: { id: string }) {
   const recipe = await fetchRecipeById(id);
   if (!recipe) return notFound();
   return <UpdateForm recipe={recipe} />;
 }
+
+export default (RecipeServer_edit)
