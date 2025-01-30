@@ -38,7 +38,7 @@ const CardRecipe = () => {
 
 
   const recipesFilter = recipes.filter(recipe => {
-    const filterFavoriteRecipes = showFavorites ? recipe.favorite : recipes;
+    const filterFavoriteRecipes = showFavorites ? recipe.favorite : true;
     const filterCategoryRecipes = showCategory ? recipe.category === category : true;
     return filterCategoryRecipes && filterFavoriteRecipes;
   });
