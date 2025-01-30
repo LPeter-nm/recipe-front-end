@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from "react";
+import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { fetchRecipes } from "./server_card_recipe";
 import { FaHeart, FaListAlt } from "react-icons/fa";
@@ -24,8 +24,8 @@ const CardRecipe = () => {
   const router = useRouter();
   const [recipes, setRecipes] = useState<Recipe[]>([]);
   const [favorite, setFavorite] = useState<Recipe["favorite"]>();
-  const {category,setCategory} = useState<Recipe["category"]>();
-  const {showCategory,setshowCategory} = useState(false);
+  const [category,setCategory] = useState("");
+  const [showCategory,setshowCategory] = useState(false);
   const [showFavorites, setShowFavorites] = useState(false);
   
   useEffect(() => {
@@ -37,10 +37,9 @@ const CardRecipe = () => {
   }, [favorite, category]);
 
 
-  
   const recipesFilter = recipes.filter(recipe => {
     const filterFavoriteRecipes = showFavorites ? recipe.favorite : recipes;
-    const filterCategoryRecipes = showCategory ? recipe.category === category : recipes;
+    const filterCategoryRecipes = showCategory ? recipe.category === category : true;
     return filterCategoryRecipes && filterFavoriteRecipes;
   });
 
@@ -48,10 +47,9 @@ const CardRecipe = () => {
     setShowFavorites(!showFavorites);
   };
 
-  const handleFilterCategory = (event) => {
-    console.log(typeof event)
-    setCategory(event.target.value)
-    setshowCategory(!showCategory);
+  const handleFilterCategory = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setCategory(event.target.value);
+    setshowCategory(event.target.value !== ""); 
   };
 
   const handleUpdateRecipe = async (id: string) => {
@@ -69,8 +67,8 @@ const CardRecipe = () => {
         <button onClick={ () => handleFilterFavorites()} className="bg-amber-500 border-2 border-black text-black rounded-lg p-2 flex items-center gap-2">
           <FaHeart /> Filtrar por Favoritas
         </button>
-        <select className="bg-amber-500  border-2 border-black text-black rounded-lg p-2 flex items-center gap-2">
-        <option value="" onChange={(e) => handleFilterCategory(e)}>Filtrar por Categoria</option>
+        <select onChange={(e) => handleFilterCategory(e)} className="bg-amber-500  border-2 border-black text-black rounded-lg p-2 flex items-center gap-2">
+        <option value="">Filtrar por Categoria</option>
           <option value="Aperitivo">Aperitivo</option>
           <option value="Entrada">Entrada</option>
           <option value="Prato Principal">Prato Principal</option>
