@@ -57,7 +57,7 @@ const UpdateForm = ({ recipe }: { recipe: Recipe }) => {
 
     const updatedFormData = {
       ...formData,
-      difficulty: ['FACIL', 'MEDIO', 'DIFICIL'][dificuldade - 1] || "",
+      difficulty: ['FACIL', 'MEDIO', 'DIFICIL'][dificuldade - 1],
     };
     const updatedRecipe = await Update_Recipe(recipe.id, updatedFormData);
     if (updatedRecipe) {

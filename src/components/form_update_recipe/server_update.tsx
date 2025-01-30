@@ -14,7 +14,7 @@ type Recipe = {
   imagem_url: string;
 };
 
-const Update_Recipe = async (id: string, data: Partial<Recipe>) => {
+const Update_Recipe = async (id: string, data: Recipe) => {
     const jwt = (await cookies()).get("JWT");
     try {
       const response = await api.put(`/recipe/${id}`, data, {
@@ -25,8 +25,6 @@ const Update_Recipe = async (id: string, data: Partial<Recipe>) => {
       console.error("Erro ao atualizar receita:", error);
       return null;
     }
-  };
+};
 
 export default Update_Recipe;
-
-

@@ -14,7 +14,7 @@ const CriarForm = () => {
   const handleFormSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formdata = new FormData(e.currentTarget);
-    formdata.set("dificuldade", ['FACIL', 'MEDIO', 'DIFICIL'][dificuldade - 1] || "");
+    formdata.set("dificuldade", ['FACIL', 'MEDIO', 'DIFICIL'][dificuldade - 1]);
 
     if (!validateForm(formdata)) {
       return;
