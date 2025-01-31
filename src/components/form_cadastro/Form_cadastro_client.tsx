@@ -1,10 +1,9 @@
 "use client";
-import { useRouter } from "next/navigation";
+import { redirect } from "next/navigation";
 import { useState } from "react";
 
 const ClientForm = ({ handleSubmit }: { handleSubmit: (formdata: FormData) => Promise<void> }) => {
   const [error, setError] = useState("");
-  const router = useRouter();
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -19,7 +18,7 @@ const ClientForm = ({ handleSubmit }: { handleSubmit: (formdata: FormData) => Pr
     }
 
     await handleSubmit(formdata);
-    router.push("/"); 
+    redirect("/"); 
   };
 
   return (

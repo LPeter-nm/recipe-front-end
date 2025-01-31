@@ -1,12 +1,13 @@
 "use client";
+import { redirect } from "next/navigation";
 import { CgAdd } from "react-icons/cg";
-import { useRouter } from 'next/navigation';
+
 
 const Button_home = () => {
-  const router = useRouter();
+ 
 
   const handleCreate = () => {
-    router.push("/criar_receita");
+    redirect("/criar_receita");
   };
 
   return ( 

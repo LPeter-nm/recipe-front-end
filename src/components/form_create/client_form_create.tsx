@@ -1,13 +1,12 @@
 'use client';
 
 import { FormEvent, useState } from "react";
-import { useRouter } from "next/navigation";
 import { CgAdd, CgArrowLeftO } from "react-icons/cg";
 import { handleSubmit } from "./server_form_criar";
 import { LuCookingPot } from "react-icons/lu";
+import { redirect } from "next/navigation";
 
 const CriarForm = () => {
-  const router = useRouter();
   const [dificuldade, setDificuldade] = useState(1);
   const [error, setError] = useState("");
 
@@ -21,11 +20,11 @@ const CriarForm = () => {
     }
 
     await handleSubmit(formdata);
-    router.push("/home");
+    redirect("/home");
   };
 
   const handleCancel = () => {
-    router.push("/home");
+    redirect("/home");
   };
 
   const handleDificuldade = (nivel: number) => {
@@ -37,6 +36,11 @@ const CriarForm = () => {
     for (const field of requiredFields) {
       if (!formdata.get(field)) {
         setError("Por favor, preencha todos os campos.");
+        return false;
+      }
+
+      if (field === "tempoPreparo" && Number(formdata.get(field)) <= 0) {
+        setError("O tempo de preparação deve ser positivo.");
         return false;
       }
     }
@@ -91,6 +95,7 @@ const CriarForm = () => {
         <input
           name="tempoPreparo"
           type="number"
+          min="1"
           className="bg-gray-100 rounded-lg p-2 border border-gray-300"
           placeholder="Tempo de Preparação em minutos"
         />
