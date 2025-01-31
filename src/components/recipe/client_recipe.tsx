@@ -2,9 +2,9 @@
 
 import { IoMdSync } from "react-icons/io";
 import { LuCookingPot } from "react-icons/lu";
-import { useRouter } from "next/navigation";
 import { CiTrash } from "react-icons/ci";
 import { deleteRecipe } from "./server_delete_recipe";
+import { redirect } from "next/navigation";
 
 type Recipe = {
   id: string;
@@ -18,16 +18,15 @@ type Recipe = {
 };
 
 export default function RecipeClient({ recipe }: { recipe: Recipe }) {
-  const router = useRouter();
 
   const handleAlterar = (recipe_id: string) => {
-    router.push(`/alterar_receita/${recipe_id}`);
+    redirect(`/alterar_receita/${recipe_id}`);
   };
 
   const handleDelete = async (recipe_id: string) => {
     const status = await deleteRecipe(recipe_id);
     if (status === 200) {
-      router.push("/home");
+      redirect("/home");
     } else {
       console.error("Erro ao deletar receita.");
     }

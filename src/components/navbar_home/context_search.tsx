@@ -11,7 +11,7 @@ export const SearchProvider = ({ children }: { children: React.ReactNode }) => {
 export const useSearch = () => {
   const context = useContext(SearchContext);
   if (!context) {
-    throw new Error("useSearch deve ser usado dentro de um SearchProvider");
+    throw new Error("Não há itens a serem pesquisados aqui");
   }
   return context;
 };

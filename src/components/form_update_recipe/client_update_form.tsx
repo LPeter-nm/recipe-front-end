@@ -1,9 +1,9 @@
 "use client";
-import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { CgAdd, CgArrowLeftO } from "react-icons/cg";
 import Update_Recipe from "./server_update";
 import { LuCookingPot } from "react-icons/lu";
+import { redirect } from "next/navigation";
 
 type Recipe = {
   id: string;
@@ -20,7 +20,6 @@ const UpdateForm = ({ recipe }: { recipe: Recipe }) => {
   const [formData, setFormData] = useState(recipe);
   const [dificuldade, setDificuldade] = useState(1);
   const [error, setError] = useState("");
-  const router = useRouter();
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -35,7 +34,7 @@ const UpdateForm = ({ recipe }: { recipe: Recipe }) => {
   };
 
   const handleCancel = (recipe_id: string) => {
-    router.push(`/receita/${recipe_id}`);
+    redirect(`/receita/${recipe_id}`);
   };
 
   const validateForm = () => {
@@ -61,7 +60,7 @@ const UpdateForm = ({ recipe }: { recipe: Recipe }) => {
     };
     const updatedRecipe = await Update_Recipe(recipe.id, updatedFormData);
     if (updatedRecipe) {
-      router.push(`/receita/${recipe.id}`);
+      redirect(`/receita/${recipe.id}`);
     }
   };
 

@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
 import { fetchRecipes } from "./server_card_recipe";
 import { MdFavoriteBorder, MdFavorite } from "react-icons/md";
 import { useSearch } from "../navbar_home/context_search"; 
 import { fetchUpdateRecipe } from "./server_card_update_recipe";
+import { redirect } from "next/navigation";
 
 type Recipe = {
   id: string;
@@ -18,7 +18,6 @@ type Recipe = {
 };
 
 const CardRecipe = () => {
-  const router = useRouter();
   const [recipes, setRecipes] = useState<Recipe[]>([]);
   const [favorite, setFavorite] = useState<Recipe["favorite"]>();
   const [category, setCategory] = useState("");
@@ -60,7 +59,7 @@ const CardRecipe = () => {
   };
 
   const handleRecipeView = (id: string) => {
-    router.push(`/receita/${id}`);
+    redirect(`/receita/${id}`);
   };
 
   return (
