@@ -1,5 +1,5 @@
 import CriarForm from "../../components/form_create/client_form_create";
-import Navbar_Home from "@/components/navbar_home";
+import Navbar_Home from "@/components/navbar_home/client";
 const Criar = () => {
   return (
     <div>

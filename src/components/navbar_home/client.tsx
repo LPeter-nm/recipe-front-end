@@ -4,8 +4,11 @@ import { redirect } from 'next/navigation';
 import { IoSearchOutline } from "react-icons/io5";
 import { RxTextAlignJustify } from "react-icons/rx";
 import logo from '../../assets/images/logo_any_recipe.png';
+import { useSearch } from './context_search';
 
 const Navbar_Home = () => {
+  const { setSearchTerm } = useSearch();
+
   const handleSignOut = async () => {
     cookie.remove('JWT');
     redirect("/")
@@ -23,7 +26,7 @@ const Navbar_Home = () => {
         </div>
         <div className='relative'>
         <RxTextAlignJustify className='absolute size-9 left-3 p-2 bg-amber-200 rounded-[40px] top-1/2 transform -translate-y-1/2 text-black'/>
-          <input type="text" placeholder='Pesquise por nome ou ingredientes' className='p-3 pl-14 border-2 w-[400px] border-black rounded-[30px] my-6 bg-amber-500 text-black placeholder-black' />
+          <input onChange={(e) => setSearchTerm?.(e.target.value)} type="text" placeholder='Pesquise por nome ou ingredientes' className='p-3 pl-14 border-2 w-[400px] border-black rounded-[30px] my-6 bg-amber-500 text-black placeholder-black' />
           <IoSearchOutline className="absolute size-9 right-3 p-2 bg-amber-200 rounded-[40px] top-1/2 transform -translate-y-1/2 text-black" />
         </div>
         <div className="flex justify-end items-center p-4 gap-8">

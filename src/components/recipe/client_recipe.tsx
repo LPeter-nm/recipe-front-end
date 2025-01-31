@@ -2,7 +2,7 @@
 
 import { IoMdSync } from "react-icons/io";
 import { LuCookingPot } from "react-icons/lu";
-import Navbar_Home from "@/components/navbar_home";
+import Navbar_Home from "@/components/navbar_home/client";
 import { useRouter } from "next/navigation";
 import { CiTrash } from "react-icons/ci";
 
