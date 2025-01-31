@@ -6,6 +6,7 @@ import { RxTextAlignJustify } from "react-icons/rx";
 import logo from '../../assets/images/logo_any_recipe.png';
 import { useSearch } from './context_search';
 
+
 const Navbar_Home = () => {
   const { setSearchTerm } = useSearch();
 

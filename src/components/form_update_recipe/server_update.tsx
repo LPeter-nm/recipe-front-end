@@ -17,7 +17,7 @@ type Recipe = {
 const Update_Recipe = async (id: string, data: Recipe) => {
     const jwt = (await cookies()).get("JWT");
     try {
-      const response = await api.put(`/recipe/${id}`, data, {
+      const response = await api.patch(`/recipe/${id}`, data, {
         headers: { authorization: `Bearer ${jwt!.value}` },
       });
       return response.data;

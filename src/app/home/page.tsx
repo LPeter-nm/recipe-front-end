@@ -5,10 +5,12 @@ import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
 const Home = async () => {
+
   const jwt = (await cookies()).get("JWT");
   if (!jwt) {
     redirect("/")
   }
+  
   return (
 
       <SearchProvider>
