@@ -5,6 +5,9 @@ import { LuCookingPot } from "react-icons/lu";
 import Navbar_Home from "@/components/navbar_home";
 import { useRouter } from "next/navigation";
 import { CiTrash } from "react-icons/ci";
+import axios from "axios";
+import { cookies } from "next/headers";
+import { api } from "@/service/server";
 
 type Recipe = {
   id: string;
@@ -46,6 +49,21 @@ export default function RecipeClient({ recipe }: { recipe: Recipe }) {
     }
     return icons;
   };
+  const handleDelete = async (recipe_id: string) => {
+    const jwt = (await cookies()).get("JWT");
+    try {
+      const response = await api.delete(`/recipe/${recipe.id}`, {
+        headers: { authorization: `Bearer ${jwt!.value}` },
+      });
+      return response.data;
+    } catch (error) {
+      console.error("Erro ao buscar receita:", error);
+      return null;
+    }
+  };
+
+
+  
   return (
     <div>
       <Navbar_Home />
@@ -73,8 +91,8 @@ export default function RecipeClient({ recipe }: { recipe: Recipe }) {
               className="bg-amber-500 px-4 py-2 rounded-lg border-2 border-black flex items-center h-10 w-auto text-xl translate-y-24 "
             >
               <IoMdSync className="mr-2" /> Alterar receita!
-            </button>
-            <button  className="bg-amber-500 px-4 py-2 rounded-lg border-2 border-black flex items-center h-10 w-auto text-xl translate-y-24 "> <CiTrash className="mr-2" />  Excluir </button>
+            </button> 
+            <button onClick={()=>handleDelete(recipe.id)} className="bg-amber-500 px-4 py-2 rounded-lg border-2 border-black flex items-center h-10 w-auto text-xl translate-y-24 "> <CiTrash className="mr-2" />  Excluir </button>
 
             </div>
           </div>
