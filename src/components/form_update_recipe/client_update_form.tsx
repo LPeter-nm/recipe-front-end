@@ -128,6 +128,7 @@ const UpdateForm = ({ recipe }: { recipe: Recipe }) => {
           placeholder="Tempo de Preparação em minutos"
           value={formData.preparation_time}
           onChange={handleInputChange}
+          min="1"
         />
         <h1 className="flex justify-center text-lg">Dificuldade</h1>
         <div className="flex justify-center gap-4">

@@ -1,9 +1,7 @@
-"use client";
-import { useState, useEffect } from "react";
-import { CgAdd, CgArrowLeftO } from "react-icons/cg";
-import Update_Recipe from "./server_update";
-import { LuCookingPot } from "react-icons/lu";
-import { redirect } from "next/navigation";
+import { notFound } from "next/navigation";
+import { api } from "@/service/server";
+import { cookies } from "next/headers";
+import UpdateForm from "./client_update_form";
 
 type Recipe = {
   id: string;
@@ -16,171 +14,23 @@ type Recipe = {
   imagem_url: string;
 };
 
-const UpdateForm = ({ recipe }: { recipe: Recipe }) => {
-  const [formData, setFormData] = useState(recipe);
-  const [dificuldade, setDificuldade] = useState(1);
-  const [error, setError] = useState("");
-
-  useEffect(() => {
-    const dificuldadeIndex = ['FACIL', 'MEDIO', 'DIFICIL'].indexOf(recipe.difficulty);
-    setDificuldade(dificuldadeIndex + 1);
-  }, [recipe.difficulty]);
-
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value,
+const fetchRecipeById_edit = async (id: string): Promise<Recipe | null> => {
+  const jwt = (await cookies()).get("JWT");
+  try {
+    const response = await api.get(`/recipe/${id}`, {
+      headers: { authorization: `Bearer ${jwt!.value}` },
     });
-  };
-
-  const handleDificuldade = (level: number) => {
-    setDificuldade(level);
-  };
-
-  const handleCancel = (recipe_id: string) => {
-    redirect(`/receita/${recipe_id}`);
-  };
-
-  const validateForm = () => {
-    const requiredFields = ["title", "description", "ingredients", "preparation_time", "category", "imagem_url"];
-    for (const field of requiredFields) {
-      if (!formData[field as keyof Recipe]) {
-        setError("Por favor, preencha todos os campos.");
-        return false;
-      }
-      if (field === "preparation_time" && Number(formData.preparation_time) <= 0) {
-        setError("O tempo de preparação deve ser um número positivo.");
-        return false;
-      }
-    }
-    setError("");
-    return true;
-  };
-
-  const handleUpdate = async () => {
-    if (!validateForm()) {
-      return;
-    }
-
-    const updatedFormData = {
-      ...formData,
-      difficulty: ['FACIL', 'MEDIO', 'DIFICIL'][dificuldade - 1],
-    };
-    const updatedRecipe = await Update_Recipe(recipe.id, updatedFormData);
-    if (updatedRecipe) {
-      redirect(`/receita/${recipe.id}`);
-    }
-  };
-
-  return (
-    <div className="min-h-[774px] flex justify-center items-center bg-amber-100">
-      <form
-        className="flex p-5 w-full max-w-lg rounded-xl flex-col gap-4 bg-amber-200 border-black border-2"
-        onSubmit={(e) => {
-          e.preventDefault();
-          handleUpdate();
-        }}
-      >
-        <h1 className="text-2xl justify-center flex">Atualize sua receita!</h1>
-        {error && <p className="text-red-600">{error}</p>}
-        <input
-          name="title"
-          type="text"
-          className="bg-gray-100 rounded-lg p-2 border border-gray-300"
-          placeholder="Título"
-          value={formData.title}
-          onChange={handleInputChange}
-        />
-        <textarea
-          name="description"
-          className="bg-gray-100 rounded-lg p-2 border border-gray-300 h-24"
-          placeholder="Descrição"
-          value={formData.description}
-          onChange={handleInputChange}
-        />
-        <textarea
-          name="ingredients"
-          className="bg-gray-100 rounded-lg p-2 border border-gray-300 h-24"
-          placeholder="Ingredientes"
-          value={formData.ingredients}
-          onChange={handleInputChange}
-        />
-        <input
-          name="imagem_url"
-          type="text"
-          className="bg-gray-100 rounded-lg p-2 border border-gray-300"
-          placeholder="Link da Foto"
-          value={formData.imagem_url}
-          onChange={handleInputChange}
-        />
-        <select
-          name="category"
-          className="bg-gray-100 rounded-lg p-2 border border-gray-300"
-          value={formData.category}
-          onChange={handleInputChange}
-        >
-          <option value="">Selecione uma Categoria</option>
-          <option value="Aperitivo">Aperitivo</option>
-          <option value="Entrada">Entrada</option>
-          <option value="Prato Principal">Prato Principal</option>
-          <option value="Sobremesa">Sobremesa</option>
-          <option value="Bebida">Bebida</option>
-          <option value="Café da Manhã">Café da Manhã</option>
-          <option value="Lanche">Lanche</option>
-          <option value="Jantar">Jantar</option>
-        </select>
-        <input
-          name="preparation_time"
-          type="number"
-          min="1"
-          className="bg-gray-100 rounded-lg p-2 border border-gray-300"
-          placeholder="Tempo de Preparação em minutos"
-          value={formData.preparation_time}
-          onChange={handleInputChange}
-        />
-        <h1 className="flex justify-center text-lg">Dificuldade</h1>
-        <div className="flex justify-center gap-4">
-          <button
-            type="button"
-            onClick={() => handleDificuldade(1)}
-            className={dificuldade >= 1 ? "text-orange-600" : ""}
-          >
-            <LuCookingPot size={25} />
-          </button>
-          <button
-            type="button"
-            onClick={() => handleDificuldade(2)}
-            className={dificuldade >= 2 ? "text-orange-600" : ""}
-          >
-            <LuCookingPot size={25} />
-          </button>
-          <button
-            type="button"
-            onClick={() => handleDificuldade(3)}
-            className={dificuldade >= 3 ? "text-orange-600" : ""}
-          >
-            <LuCookingPot size={25} />
-          </button>
-        </div>
-        <div className="flex justify-around mt-4">
-          <button
-            onClick={() => handleCancel(recipe.id)}
-            type="button"
-            className="bg-red-500 w-1/3 rounded-xl text-white p-2 flex items-center justify-center gap-2"
-          >
-            <CgArrowLeftO /> CANCELAR
-          </button>
-          <button
-            type="submit"
-            className="bg-green-500 w-1/3 rounded-xl text-white p-2 flex items-center justify-center gap-2"
-          >
-            <CgAdd /> ATUALIZAR
-          </button>
-        </div>
-      </form>
-    </div>
-  );
+    return response.data;
+  } catch (error) {
+    console.error("Erro ao buscar receita:", error);
+    return null;
+  }
 };
 
-export default UpdateForm;
+async function RecipeServer_edit({ id }: { id: string }) {
+  const recipe = await fetchRecipeById_edit(id);
+  if (!recipe) return notFound();
+  return <UpdateForm recipe={recipe} />;
+}
+
+export default (RecipeServer_edit)
