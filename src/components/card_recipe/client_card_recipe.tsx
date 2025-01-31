@@ -64,7 +64,7 @@ const CardRecipe = () => {
   };
 
   return (
-    <div>
+    <div className="p-14">
       <h1 className="mb-3 text-3xl">Receitas Cadastradas:</h1>
       <div className="flex justify-normal gap-6 mb-8">
         <button onClick={handleFilterFavorites} className="bg-amber-500 border-2 border-black text-black rounded-lg p-2 flex items-center gap-2">

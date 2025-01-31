@@ -28,7 +28,6 @@ const ClientForm = ({ handleSubmit }: { handleSubmit: (formdata: FormData) => Pr
         className="flex flex-col p-24 max-w-sm rounded-xl justify-center items-center bg-amber-200 gap-3 border-black border-2"
         onSubmit={onSubmit}
       >
-        {error && <p className="text-red-600">{error}</p>}
         <input
           name="name"
           type="text"
@@ -44,9 +43,10 @@ const ClientForm = ({ handleSubmit }: { handleSubmit: (formdata: FormData) => Pr
         <input
           name="password"
           type="password"
-          className="bg-amber-100 rounded-lg p-2"
+          className="bg-amber-100 rounded-lg p-2 mb-3"
           placeholder="Senha"
         />
+        {error && <p className="text-red-600 w-80 mb-3 text-center">{error}</p>}
         <button
           type="submit"
           className="bg-amber-500 w-full rounded-xl p-2 text-white"

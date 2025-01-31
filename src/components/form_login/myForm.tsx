@@ -28,9 +28,9 @@ const MyForm = () => {
         onSubmit={handleSubmit} 
         className="flex flex-col p-24 w-full max-w-sm rounded-xl justify-center items-center bg-amber-200 gap-3 border-black border-2"
       >
-        {error && <p className="text-red-600">{error}</p>}
         <input name="email" type="email" className="bg-amber-100 rounded-lg p-2" placeholder="Email" />
         <input name="password" type="password" className="bg-amber-100 rounded-lg p-2" placeholder="Senha" />
+        {error && <p className="text-red-600 w-80 mb-3 text-center">{error}</p>}
         <button type="submit" className="bg-amber-500 w-full rounded-xl p-2 text-white">ENTRAR</button>
       </form>
     </div>
