@@ -38,11 +38,6 @@ const CriarForm = () => {
         setError("Por favor, preencha todos os campos.");
         return false;
       }
-
-      if (field === "tempoPreparo" && Number(formdata.get(field)) <= 0) {
-        setError("O tempo de preparação deve ser positivo.");
-        return false;
-      }
     }
     setError("");
     return true;
