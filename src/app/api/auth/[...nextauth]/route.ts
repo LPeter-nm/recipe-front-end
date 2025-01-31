@@ -10,8 +10,8 @@ export const handlerAuth = NextAuth({
     CredentialsProvider({
       name: "Credentials",
       credentials: {
-        email: {label:"email", type:"email", placeholder: "jsmith"},
-        password: {label:"password", type:"password"},
+        email: {type:"email",},
+        password: {type:"password"},
         },
         async authorize(credentials) {
           const res = await fetch(`http://localhost:4000/login`,{
