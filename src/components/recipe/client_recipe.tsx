@@ -2,9 +2,9 @@
 
 import { IoMdSync } from "react-icons/io";
 import { LuCookingPot } from "react-icons/lu";
-import Navbar_Home from "@/components/navbar_home/client";
 import { useRouter } from "next/navigation";
 import { CiTrash } from "react-icons/ci";
+import { deleteRecipe } from "./server_delete_recipe";
 
 type Recipe = {
   id: string;
@@ -20,8 +20,17 @@ type Recipe = {
 export default function RecipeClient({ recipe }: { recipe: Recipe }) {
   const router = useRouter();
 
-  const handleAlterar = (recipe_id : string) => {
+  const handleAlterar = (recipe_id: string) => {
     router.push(`/alterar_receita/${recipe_id}`);
+  };
+
+  const handleDelete = async (recipe_id: string) => {
+    const status = await deleteRecipe(recipe_id);
+    if (status === 200) {
+      router.push("/home");
+    } else {
+      console.error("Erro ao deletar receita.");
+    }
   };
 
   const renderDifficultyIcons = (difficulty: string) => {
@@ -46,41 +55,44 @@ export default function RecipeClient({ recipe }: { recipe: Recipe }) {
     }
     return icons;
   };
+
   return (
     <div>
-      <Navbar_Home />
-      <div className="min-h-screen flex flex-col justify-start items-center bg-amber-100 pb-10 pl-10 pr-10  ">
-        <div className="bg-amber-500 w-[95%] h-[163px] rounded-b-lg border-2 border-black border-t-0">
+      <div className="min-h-screen flex flex-col justify-start items-center bg-amber-100 pb-10 pl-10 pr-10">
+        <div className="bg-amber-500 w-[100%] h-[163px] rounded-b-lg border-2 border-black border-t-0">
           <h1 className="text-2xl justify-center flex pt-1">Descrição da Receita:</h1>
           <div className="flex justify-between">
-          <div className="flex gap-7 items-center">
-            <img
-              src={recipe.imagem_url}
-              alt={recipe.title}
-              className="w-80 h-50 object-cover rounded-lg ml-9 border-2 border-black"
-            />
-            <div className="flex flex-col">
-              <h1 className="text-4xl font-bold">{recipe.title}</h1>
-              <h1 className="text-2xl">{recipe.category}</h1>
-              <h1 className="font-bold text-1xl translate-y-3">Dificuldade</h1>
-              <div className="flex translate-y-3 ">{renderDifficultyIcons(recipe.difficulty)}</div>
-            </div>
+            <div className="flex gap-7 items-center">
+              <img
+                src={recipe.imagem_url}
+                alt={recipe.title}
+                className="w-72 h-40 object-cover rounded-lg ml-9 border-2 border-black"
+              />
+              <div className="flex flex-col">
+                <h1 className="text-4xl font-bold">{recipe.title}</h1>
+                <h1 className="text-2xl">{recipe.category}</h1>
+                <h1 className="font-bold text-1xl translate-y-3">Dificuldade</h1>
+                <div className="flex translate-y-3">{renderDifficultyIcons(recipe.difficulty)}</div>
+              </div>
             </div>
             <div className="flex gap-3 pr-5">
-
-            <button
-              onClick={() => handleAlterar(recipe.id)}
-              className="bg-amber-500 px-4 py-2 rounded-lg border-2 border-black flex items-center h-10 w-auto text-xl translate-y-24 "
-            >
-              <IoMdSync className="mr-2" /> Alterar receita!
-            </button>
-            <button  className="bg-amber-500 px-4 py-2 rounded-lg border-2 border-black flex items-center h-10 w-auto text-xl translate-y-24 "> <CiTrash className="mr-2" />  Excluir </button>
-
+              <button
+                onClick={() => handleAlterar(recipe.id)}
+                className="bg-amber-500 px-4 py-2 rounded-lg border-2 border-black flex items-center h-10 w-auto text-xl translate-y-24"
+              >
+                <IoMdSync className="mr-2" /> Alterar receita!
+              </button>
+              <button
+                onClick={() => handleDelete(recipe.id)}
+                className="bg-amber-500 px-4 py-2 rounded-lg border-2 border-black flex items-center h-10 w-auto text-xl translate-y-24"
+              >
+                <CiTrash className="mr-2" /> Excluir
+              </button>
             </div>
           </div>
         </div>
-        <div className="pt-28 pr-96">
-          <h1 className="text-xl flex mb-4 pr-96">{recipe.description}</h1>
+        <div className="pt-28">
+          <h1 className="text-xl flex mb-4">{recipe.description}</h1>
           <h1 className="text-3xl flex mb-2 font-bold">Ingredientes</h1>
           <h1 className="text-xl flex mb-4">{recipe.ingredients}</h1>
           <h1 className="text-3xl flex mb-2 font-bold">Tempo de Preparação</h1>
@@ -88,7 +100,7 @@ export default function RecipeClient({ recipe }: { recipe: Recipe }) {
             O Tempo de preparação será de cerca de {recipe.preparation_time} minutos.
           </h1>
         </div>
-      </div>  
+      </div>
     </div>
   );
 }
